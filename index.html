@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -998,7 +997,9 @@
             products: [],
             discountPercentage: 0,
             categories: [],
-            catalogName: "Faafu.Online"
+            catalogName: "Faafu.Online",
+            freeShippingThreshold: 100, // Free shipping threshold in MVR
+            shippingCost: 5.99 // Standard shipping cost
         };
 
         // DOM elements
@@ -1034,6 +1035,7 @@
                     loadCategories();
                     loadProducts();
                     loadDiscount();
+                    loadShippingSettings();
                 }, 500);
             });
 
@@ -1047,6 +1049,7 @@
                         loadCategories();
                         loadProducts();
                         loadDiscount();
+                        loadShippingSettings();
                     }, 500);
                 }
             }, 3000);
@@ -1085,6 +1088,25 @@
             
             // Hide admin link by default (will show if logged in)
             adminLink.style.display = 'none';
+        }
+
+        // Load shipping settings from Firebase
+        function loadShippingSettings() {
+            database.ref('shippingSettings').on('value', (snapshot) => {
+                const settings = snapshot.val();
+                if (settings) {
+                    state.freeShippingThreshold = settings.freeShippingThreshold || 100;
+                    state.shippingCost = settings.shippingCost || 5.99;
+                }
+            });
+        }
+
+        // Calculate shipping cost based on order total
+        function calculateShipping(subtotal) {
+            if (subtotal >= state.freeShippingThreshold) {
+                return 0;
+            }
+            return state.shippingCost;
         }
 
         // Load catalog name from Firebase
@@ -1355,7 +1377,7 @@
                             <div class="banner-content">
                                 <div class="banner-text">
                                     <h2>Free Shipping</h2>
-                                    <p>On all orders over MVR100</p>
+                                    <p>On all orders over MVR${state.freeShippingThreshold}</p>
                                     <a href="#" class="btn" id="shippingBtn">Learn More</a>
                                 </div>
                             </div>
@@ -1453,7 +1475,7 @@
             
             document.getElementById('shippingBtn')?.addEventListener('click', (e) => {
                 e.preventDefault();
-                alert('Free shipping applies to all orders over MVR100. No code needed!');
+                alert(`Free shipping applies to all orders over MVR${state.freeShippingThreshold}. No code needed!`);
             });
         }
 
@@ -1651,6 +1673,9 @@
             const subtotal = cartItems.reduce((sum, item) => 
                 sum + (item.product.price * item.quantity), 0);
             
+            const shipping = calculateShipping(subtotal);
+            const total = subtotal + shipping;
+            
             mainContent.innerHTML = `
                 <h1>Your Shopping Cart</h1>
                 <p style="margin-bottom: 15px;">Total items: ${Object.values(state.cart).reduce((a, b) => a + b, 0)}</p>
@@ -1689,11 +1714,24 @@
                     </div>
                     <div class="summary-row">
                         <span>Shipping:</span>
-                        <span>MVR5.99</span>
+                        <span>${shipping === 0 ? 'FREE' : `MVR${shipping.toFixed(2)}`}</span>
                     </div>
+                    ${shipping === 0 ? `
+                    <div class="summary-row">
+                        <span style="color: #4CAF50; font-size: 14px;">
+                            <i class="fas fa-check-circle"></i> Free shipping applied!
+                        </span>
+                    </div>
+                    ` : `
+                    <div class="summary-row">
+                        <span style="font-size: 14px;">
+                            Spend MVR${(state.freeShippingThreshold - subtotal).toFixed(2)} more for free shipping
+                        </span>
+                    </div>
+                    `}
                     <div class="summary-row summary-total">
                         <span>Total:</span>
-                        <span>MVR${(subtotal + 5.99).toFixed(2)}</span>
+                        <span>MVR${total.toFixed(2)}</span>
                     </div>
                     <button class="btn" id="checkoutBtn" style="width: 100%; margin-top: 20px;">Proceed to Checkout</button>
                 </div>
@@ -1775,7 +1813,8 @@
             
             const subtotal = cartItems.reduce((sum, item) => 
                 sum + (item.product.price * item.quantity), 0);
-            const total = subtotal + 5.99;
+            const shipping = calculateShipping(subtotal);
+            const total = subtotal + shipping;
             
             // Generate a random order number
             const orderNumber = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
@@ -1785,7 +1824,7 @@
                 orderNumber,
                 items: cartItems,
                 subtotal,
-                shipping: 5.99,
+                shipping,
                 total,
                 date: new Date().toLocaleDateString(),
                 status: 'pending'
@@ -1890,7 +1929,7 @@
                                 </div>
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                                     <span>Shipping:</span>
-                                    <span>MVR5.99</span>
+                                    <span>${shipping === 0 ? 'FREE' : `MVR${shipping.toFixed(2)}`}</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px;">
                                     <span>Total:</span>
