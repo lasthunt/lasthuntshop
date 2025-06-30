@@ -265,7 +265,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        .categories, .featured-products, .product-listing {
+        .categories, .featured-products, .product-listing, .catalog-section {
             margin: 25px 0;
         }
         
@@ -276,14 +276,14 @@
             padding: 0 5px;
         }
         
-        .category-grid, .product-grid {
+        .category-grid, .product-grid, .catalog-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             padding: 0 5px;
         }
         
-        .category-item, .product-card {
+        .category-item, .product-card, .catalog-item {
             background-color: white;
             border-radius: 8px;
             overflow: hidden;
@@ -291,18 +291,18 @@
             transition: transform 0.3s;
         }
         
-        .category-item:hover, .product-card:hover {
+        .category-item:hover, .product-card:hover, .catalog-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .category-item img, .product-card img {
+        .category-item img, .product-card img, .catalog-item img {
             width: 100%;
             height: 120px;
             object-fit: cover;
         }
         
-        .category-item h3, .product-card h3 {
+        .category-item h3, .product-card h3, .catalog-item h3 {
             padding: 10px;
             font-size: 14px;
         }
@@ -324,7 +324,7 @@
             margin-left: 5px;
         }
         
-        .product-actions {
+        .product-actions, .catalog-actions {
             padding: 0 10px 10px;
             display: flex;
             flex-direction: column;
@@ -826,7 +826,7 @@
                 flex: 1;
             }
             
-            .category-grid, .product-grid {
+            .category-grid, .product-grid, .catalog-grid {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 20px;
             }
@@ -843,7 +843,7 @@
                 flex-direction: row;
             }
             
-            .product-actions {
+            .product-actions, .catalog-actions {
                 flex-direction: row;
                 justify-content: space-between;
             }
@@ -919,6 +919,7 @@
                 <ul>
                     <li><a href="#" class="nav-link" data-page="home">Home</a></li>
                     <li><a href="#" class="nav-link" data-page="products">All Products</a></li>
+                    <li><a href="#" class="nav-link" data-page="catalog">FiberWheelBarrows</a></li>
                     <!-- Categories will be loaded dynamically -->
                     <div id="dynamicCategories"></div>
                 </ul>
@@ -954,7 +955,7 @@
                 <div class="footer-section">
                     <h3>Follow Us</h3>
                     <div class="social-icons">
-                        <a href="https://web.facebook.com/lasthuntfiber/"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-pinterest"></i></a>
@@ -974,7 +975,7 @@
             authDomain: "lasthunt2014.firebaseapp.com",
             databaseURL: "https://lasthunt2014-default-rtdb.firebaseio.com",
             projectId: "lasthunt2014",
-            storageBucket: "lasthunt2014.firebasestorage.app",
+            storageBucket: "lasthunt2014.appspot.com",
             messagingSenderId: "842831759002",
             appId: "1:842831759002:web:c3f46e87dc52b2845a8123",
             measurementId: "G-7NV8G8PSDR"
@@ -999,7 +1000,49 @@
             categories: [],
             catalogName: "Faafu.Online",
             freeShippingThreshold: 100, // Free shipping threshold in MVR
-            shippingCost: 5.99 // Standard shipping cost
+            shippingCost: 5.99, // Standard shipping cost
+            wheelbarrows: [
+                {
+                    id: 'wb1',
+                    name: 'Fiber Wheelbarrow - Standard',
+                    price: 3100,
+                    original_price: 3200,
+                    image: '487787180_1725326181521712_6572147527257583354_n.jpg',
+                    description: 'Standard fiber wheelbarrow with durable construction',
+                    category: 'FiberWheelBarrows',
+                    featured: true
+                },
+                {
+                    id: 'wb2',
+                    name: 'Fiber Wheelbarrow - Heavy Duty',
+                    price: 2800,
+                    original_price: 3100,
+                    image: '487828118_1725326171521713_6942816860612342940_n.jpg',
+                    description: 'Heavy duty fiber wheelbarrow for industrial use',
+                    category: 'FiberWheelBarrows',
+                    featured: true
+                },
+                {
+                    id: 'wb3',
+                    name: 'Fiber Wheelbarrow - Compact',
+                    price: 2800,
+                    original_price: 3100,
+                    image: '488212627_1725326178188379_4509140595139074307_n.jpg',
+                    description: 'Compact fiber wheelbarrow for small spaces',
+                    category: 'FiberWheelBarrows',
+                    featured: false
+                },
+                {
+                    id: 'wb4',
+                    name: 'Fiber Wheelbarrow - Professional',
+                    price: 2800,
+                    original_price: 3100,
+                    image: '486810612_1723406561713674_4376302432974667543_n.jpg',
+                    description: 'Professional grade fiber wheelbarrow with reinforced frame',
+                    category: 'FiberWheelBarrows',
+                    featured: false
+                }
+            ]
         };
 
         // DOM elements
@@ -1324,6 +1367,9 @@
                 case 'order-confirmation':
                     renderOrderConfirmationPage();
                     break;
+                case 'catalog':
+                    renderCatalogPage();
+                    break;
                 default:
                     renderHomePage();
             }
@@ -1333,6 +1379,108 @@
             
             // Scroll to top when page changes
             window.scrollTo(0, 0);
+        }
+
+        // Render catalog page with wheelbarrows
+        function renderCatalogPage() {
+            mainContent.innerHTML = `
+                <h1>Our Catalog</h1>
+                
+                <section class="catalog-section">
+                    <h2>Fiber Wheelbarrows</h2>
+                    <div class="catalog-grid">
+                        ${state.wheelbarrows.map(wheelbarrow => {
+                            const discountedPrice = applyDiscount(wheelbarrow.price);
+                            return `
+                            <div class="catalog-item">
+                                <img src="${wheelbarrow.image}" alt="${wheelbarrow.name}">
+                                <h3>${wheelbarrow.name}</h3>
+                                <div class="price">
+                                    <span class="current-price">MVR${discountedPrice.toFixed(2)}</span>
+                                    ${state.discountPercentage > 0 ? 
+                                        `<span class="original-price">MVR${wheelbarrow.price.toFixed(2)}</span>` : ''}
+                                </div>
+                                <div class="catalog-actions">
+                                    <button class="btn add-to-cart-btn" data-id="${wheelbarrow.id}" data-type="wheelbarrow">Add to Cart</button>
+                                    <button class="btn view-detail-btn" data-id="${wheelbarrow.id}" data-type="wheelbarrow">View Details</button>
+                                </div>
+                            </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </section>
+            `;
+            
+            // Add event listeners
+            document.querySelectorAll('.view-detail-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const productId = btn.dataset.id;
+                    if (btn.dataset.type === 'wheelbarrow') {
+                        viewWheelbarrowDetail(productId);
+                    } else {
+                        viewProductDetail(productId);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const productId = btn.dataset.id;
+                    if (btn.dataset.type === 'wheelbarrow') {
+                        const wheelbarrow = state.wheelbarrows.find(wb => wb.id === productId);
+                        if (wheelbarrow) {
+                            addToCart(productId);
+                            alert(`${wheelbarrow.name} has been added to your cart!`);
+                        }
+                    } else {
+                        addToCart(productId);
+                        alert('Product added to cart!');
+                    }
+                });
+            });
+        }
+
+        // View wheelbarrow detail
+        function viewWheelbarrowDetail(wheelbarrowId) {
+            const wheelbarrow = state.wheelbarrows.find(wb => wb.id === wheelbarrowId);
+            if (!wheelbarrow) return;
+            
+            state.currentProduct = wheelbarrow;
+            
+            const discountedPrice = applyDiscount(wheelbarrow.price);
+            
+            mainContent.innerHTML = `
+                <div class="product-detail">
+                    <div class="product-image">
+                        <img src="${wheelbarrow.image}" alt="${wheelbarrow.name}">
+                    </div>
+                    <div class="product-info">
+                        <h1>${wheelbarrow.name}</h1>
+                        <div class="product-price">
+                            MVR${discountedPrice.toFixed(2)}
+                            ${state.discountPercentage > 0 ? 
+                                `<span class="original-price">MVR${wheelbarrow.price.toFixed(2)}</span>` : ''}
+                        </div>
+                        <div class="product-description">
+                            <p>${wheelbarrow.description || 'No description available.'}</p>
+                        </div>
+                        <form id="addToCartForm">
+                            <div class="quantity-selector">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" id="quantity" value="1" min="1">
+                            </div>
+                            <button type="submit" class="btn">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('addToCartForm')?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const quantity = parseInt(document.getElementById('quantity').value) || 1;
+                addToCart(wheelbarrow.id, quantity);
+                alert(`${wheelbarrow.name} has been added to your cart!`);
+            });
         }
 
         // Apply discount to price
@@ -1491,7 +1639,8 @@
                 'safety': 'https://images.unsplash.com/photo-1583947581924-a6d1dfc1aae1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
                 'electrical': 'https://images.unsplash.com/photo-1603732551681-2e91159ca9e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
                 'plumbing': 'Plumbings.jpeg',
-                 'fiberglass': 'fiberglass-emulsion-mat-100-180-225-300-450-600-gsm-1000x1000.webp',
+                'fiberWheelBarrows': '487855993_1725326404855023_7611427537336386740_n.jpg',
+                'fiberglass': 'fiberglass-emulsion-mat-100-180-225-300-450-600-gsm-1000x1000.webp'
 
             };
             
@@ -1662,6 +1811,16 @@
         function renderCartPage() {
             const cartItems = Object.entries(state.cart)
                 .map(([id, quantity]) => {
+                    // Check if it's a wheelbarrow first
+                    const wheelbarrow = state.wheelbarrows.find(wb => wb.id === id);
+                    if (wheelbarrow) {
+                        return {
+                            product: wheelbarrow,
+                            quantity
+                        };
+                    }
+                    
+                    // Otherwise check regular products
                     const product = state.products.find(p => p.id === id);
                     if (!product) return null;
                     
@@ -1798,6 +1957,16 @@
         function renderCheckoutPage() {
             const cartItems = Object.entries(state.cart)
                 .map(([id, quantity]) => {
+                    // Check if it's a wheelbarrow first
+                    const wheelbarrow = state.wheelbarrows.find(wb => wb.id === id);
+                    if (wheelbarrow) {
+                        return {
+                            product: wheelbarrow,
+                            quantity
+                        };
+                    }
+                    
+                    // Otherwise check regular products
                     const product = state.products.find(p => p.id === id);
                     if (!product) return null;
                     
