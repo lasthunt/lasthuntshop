@@ -795,6 +795,14 @@
             font-size: 14px;
         }
         
+        /* Item code styles */
+        .item-code {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            padding: 0 10px;
+        }
+        
         /* Desktop styles */
         @media (min-width: 768px) {
             .container {
@@ -1004,6 +1012,7 @@
             wheelbarrows: [
                 {
                     id: 'wb1',
+                    itemCode: 'WB001',
                     name: 'Fiber Wheelbarrow - Standard',
                     price: 3100,
                     original_price: 3200,
@@ -1014,6 +1023,7 @@
                 },
                 {
                     id: 'wb2',
+                    itemCode: 'WB002',
                     name: 'Fiber Wheelbarrow - Heavy Duty',
                     price: 2800,
                     original_price: 3100,
@@ -1024,6 +1034,7 @@
                 },
                 {
                     id: 'wb3',
+                    itemCode: 'WB003',
                     name: 'Fiber Wheelbarrow - Compact',
                     price: 2800,
                     original_price: 3100,
@@ -1034,6 +1045,7 @@
                 },
                 {
                     id: 'wb4',
+                    itemCode: 'WB004',
                     name: 'Fiber Wheelbarrow - Professional',
                     price: 2800,
                     original_price: 3100,
@@ -1262,6 +1274,7 @@
         function addSampleProducts() {
             const sampleProducts = [
                 {
+                    itemCode: 'PD001',
                     name: 'Power Drill',
                     price: 59.99,
                     original_price: 79.99,
@@ -1271,6 +1284,7 @@
                     featured: true
                 },
                 {
+                    itemCode: 'HM001',
                     name: 'Hammer',
                     price: 12.99,
                     original_price: 15.99,
@@ -1280,6 +1294,7 @@
                     featured: true
                 },
                 {
+                    itemCode: 'PB001',
                     name: 'Paint Brush Set',
                     price: 9.99,
                     original_price: 12.99,
@@ -1289,6 +1304,7 @@
                     featured: true
                 },
                 {
+                    itemCode: 'SG001',
                     name: 'Safety Glasses',
                     price: 5.99,
                     original_price: 7.99,
@@ -1298,6 +1314,7 @@
                     featured: true
                 },
                 {
+                    itemCode: 'MT001',
                     name: 'Measuring Tape',
                     price: 8.99,
                     original_price: 10.99,
@@ -1307,6 +1324,7 @@
                     featured: false
                 },
                 {
+                    itemCode: 'SD001',
                     name: 'Screwdriver Set',
                     price: 14.99,
                     original_price: 19.99,
@@ -1316,6 +1334,7 @@
                     featured: false
                 },
                 {
+                    itemCode: 'WG001',
                     name: 'Work Gloves',
                     price: 7.99,
                     original_price: 9.99,
@@ -1325,6 +1344,7 @@
                     featured: false
                 },
                 {
+                    itemCode: 'PR001',
                     name: 'Paint Roller Set',
                     price: 12.99,
                     original_price: 15.99,
@@ -1395,6 +1415,7 @@
                             <div class="catalog-item">
                                 <img src="${wheelbarrow.image}" alt="${wheelbarrow.name}">
                                 <h3>${wheelbarrow.name}</h3>
+                                <div class="item-code">Item Code: ${wheelbarrow.itemCode}</div>
                                 <div class="price">
                                     <span class="current-price">MVR${discountedPrice.toFixed(2)}</span>
                                     ${state.discountPercentage > 0 ? 
@@ -1456,6 +1477,7 @@
                     </div>
                     <div class="product-info">
                         <h1>${wheelbarrow.name}</h1>
+                        <div class="item-code">Item Code: ${wheelbarrow.itemCode}</div>
                         <div class="product-price">
                             MVR${discountedPrice.toFixed(2)}
                             ${state.discountPercentage > 0 ? 
@@ -1558,6 +1580,7 @@
                                 <div class="product-card">
                                     <img src="${product.image}" alt="${product.name}">
                                     <h3>${product.name}</h3>
+                                    <div class="item-code">Item Code: ${product.itemCode || 'N/A'}</div>
                                     <div class="price">
                                         <span class="current-price">MVR${discountedPrice.toFixed(2)}</span>
                                         ${state.discountPercentage > 0 ? 
@@ -1712,6 +1735,7 @@
                                 <div class="product-card">
                                     <img src="${product.image}" alt="${product.name}">
                                     <h3>${product.name}</h3>
+                                    <div class="item-code">Item Code: ${product.itemCode || 'N/A'}</div>
                                     <div class="price">
                                         <span class="current-price">MVR${discountedPrice.toFixed(2)}</span>
                                         ${state.discountPercentage > 0 ? 
@@ -1780,6 +1804,7 @@
                     </div>
                     <div class="product-info">
                         <h1>${product.name}</h1>
+                        <div class="item-code">Item Code: ${product.itemCode || 'N/A'}</div>
                         <div class="product-price">
                             MVR${discountedPrice.toFixed(2)}
                             ${state.discountPercentage > 0 ? 
@@ -1848,6 +1873,7 @@
                                 <img src="${item.product.image}" alt="${item.product.name}" class="cart-item-image">
                                 <div class="cart-item-details">
                                     <h3>${item.product.name}</h3>
+                                    <div class="item-code">Item Code: ${item.product.itemCode || 'N/A'}</div>
                                     <div class="cart-item-price">
                                         MVR${item.product.price.toFixed(2)} x ${item.quantity}
                                     </div>
@@ -2088,7 +2114,7 @@
                             <h2>Order Summary</h2>
                             ${cartItems.map(item => `
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
-                                    <span>${item.product.name} x ${item.quantity}</span>
+                                    <span>${item.product.name} (${item.product.itemCode || 'N/A'}) x ${item.quantity}</span>
                                     <span>MVR${(item.product.price * item.quantity).toFixed(2)}</span>
                                 </div>
                             `).join('')}
@@ -2299,7 +2325,7 @@
             content += `Order Items:\n`;
             
             order.items.forEach(item => {
-                content += `${item.product.name} x ${item.quantity} - $${(item.product.price * item.quantity).toFixed(2)}\n`;
+                content += `${item.product.name} (${item.product.itemCode || 'N/A'}) x ${item.quantity} - $${(item.product.price * item.quantity).toFixed(2)}\n`;
             });
             
             content += `\nSubtotal: MVR${order.subtotal.toFixed(2)}\n`;
