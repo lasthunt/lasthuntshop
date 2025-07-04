@@ -1,0 +1,711 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiber Wheelbarrows - LAST HUNT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo h1 {
+            color: #8B0000;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #8B0000;
+        }
+        
+        .nav-links a.active {
+            color: #8B0000;
+            font-weight: bold;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('487787180_1725326181521712_6572147527257583354_n.jpg') center/cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            animation: fadeInUp 1s ease 0.3s forwards;
+            opacity: 0;
+        }
+        
+        /* Section Styles */
+        .section {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            color: #8B0000;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: #8B0000;
+        }
+        
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .product-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #8B0000;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .product-content {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8B0000;
+            margin-bottom: 15px;
+        }
+        
+        .product-specs {
+            margin-bottom: 20px;
+        }
+        
+        .product-spec {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .product-spec i {
+            color: #8B0000;
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .product-btn {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background-color: #8B0000;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .product-btn:hover {
+            background-color: #700000;
+        }
+        
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        
+        .comparison-table th, 
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table th {
+            background-color: #8B0000;
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .comparison-table .feature-name {
+            font-weight: bold;
+            width: 200px;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .testimonial-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+        }
+        
+        .testimonial-rating {
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(rgba(139, 0, 0, 0.9), rgba(139, 0, 0, 0.9)), url('487828118_1725326171521713_6942816860612342940_n.jpg') center/cover;
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: white;
+            color: #8B0000;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: #8B0000;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-column h3 {
+            color: #8B0000;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #8B0000;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: #8B0000;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero {
+                height: 300px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="top-bar">
+                <div class="logo">
+                    <h1>LAST HUNT</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Products</a>
+                    <a href="catalog.html" class="active">Fiber Wheelbarrows</a>
+                    <a href="our-story.html">Our Story</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Fiber Wheelbarrows</h1>
+                <p>Lightweight, durable, and rust-free - the perfect construction tool for the Maldivian climate</p>
+            </div>
+        </section>
+        
+        <!-- Product Grid Section -->
+        <section class="section">
+            <h2 class="section-title">Our Wheelbarrow Models</h2>
+            <p>Choose from our range of premium fiber wheelbarrows, each designed for specific construction needs</p>
+            
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="487787180_1725326181521712_6572147527257583354_n.jpg" alt="Standard Fiber Wheelbarrow">
+                        <div class="product-badge">Bestseller</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Standard Fiber Wheelbarrow</h3>
+                        <div class="product-price">MVR 1,250</div>
+                        <div class="product-specs">
+                            <div class="product-spec">
+                                <i class="fas fa-weight"></i>
+                                <span>Weight: 8.5kg</span>
+                            </div>
+                            <div class="product-spec">
+                                <i class="fas fa-box-open"></i>
+                                <span>Capacity: 100L</span>
+                            </div>
+                            <div class="product-spec">
+                                <i class="fas fa-bolt"></i>
+                                <span>Max Load: 150kg</span>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="product-btn">Inquire Now</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="487828118_1725326171521713_6942816860612342940_n.jpg" alt="Heavy-Duty Wheelbarrow">
+                        <div class="product-badge">New</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Heavy-Duty Wheelbarrow</h3>
+                        <div class="product-price">MVR 1,750</div>
+                        <div class="product-specs">
+                            <div class="product-spec">
+                                <i class="fas fa-weight"></i>
+                                <span>Weight: 10.2kg</span>
+                            </div>
+                            <div class="product-spec">
+                                <i class="fas fa-box-open"></i>
+                                <span>Capacity: 120L</span>
+                            </div>
+                            <div class="product-spec">
+                                <i class="fas fa-bolt"></i>
+                                <span>Max Load: 200kg</span>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="product-btn">Inquire Now</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="488212627_1725326178188379_4509140595139074307_n.jpg" alt="Compact Fiber Wheelbarrow">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Compact Fiber Wheelbarrow</h3>
+                        <div class="product-price">MVR 950</div>
+                        <div class="product-specs">
+                            <div class="product-spec">
+                                <i class="fas fa-weight"></i>
+                                <span>Weight: 6.8kg</span>
+                            </div>
+                            <div class="product-spec">
+                                <i class="fas fa-box-open"></i>
+                                <span>Capacity: 70L</span>
+                            </div>
+                            <div class="product-spec">
+                                <i class="fas fa-bolt"></i>
+                                <span>Max Load: 100kg</span>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="product-btn">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Comparison Section -->
+        <section class="section">
+            <h2 class="section-title">Model Comparison</h2>
+            <p>See how our fiber wheelbarrows compare to help you choose the right one for your needs</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Standard</th>
+                        <th>Heavy-Duty</th>
+                        <th>Compact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">Price</td>
+                        <td>MVR 1,250</td>
+                        <td>MVR 1,750</td>
+                        <td>MVR 950</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Weight</td>
+                        <td>8.5kg</td>
+                        <td>10.2kg</td>
+                        <td>6.8kg</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Capacity</td>
+                        <td>100L</td>
+                        <td>120L</td>
+                        <td>70L</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Max Load</td>
+                        <td>150kg</td>
+                        <td>200kg</td>
+                        <td>100kg</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Wheel Type</td>
+                        <td>Single rubber</td>
+                        <td>Reinforced rubber</td>
+                        <td>Single rubber</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Best For</td>
+                        <td>General construction</td>
+                        <td>Heavy materials</td>
+                        <td>Small projects</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Testimonials Section -->
+        <section class="section">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <p>Hear from construction professionals in Malé who use our fiber wheelbarrows daily</p>
+            
+            <div class="testimonials">
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"We've completely replaced all our metal wheelbarrows with LAST HUNT fiber ones. No more rust issues and they're so much lighter for our workers to handle all day."</p>
+                    <div class="testimonial-author">- Ahmed, Construction Supervisor</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"The heavy-duty model handles cement mixing perfectly. Even after a year of daily use, it shows no signs of wear. Best investment for our construction company."</p>
+                    <div class="testimonial-author">- Mariyam, Site Manager</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title">Ready to Upgrade Your Wheelbarrows?</h2>
+            <p>Join the construction professionals in Malé who have switched to LAST HUNT fiber wheelbarrows.</p>
+            
+            <div class="cta-buttons">
+                <a href="contact.html" class="btn">Contact Our Sales Team</a>
+                <a href="tel:+9601234567" class="btn btn-outline">Call Now: +960 1234567</a>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>LAST HUNT</h3>
+                    <p>Maldives' premier fiber wheelbarrow manufacturer, providing quality tools since 2014.</p>
+                    <div class="social-links">
+                        <a href="https://web.facebook.com/lasthuntfiber"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="catalog.html">Fiber Wheelbarrows</a></li>
+                        <li><a href="our-story.html">Our Story</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Feeali, Faafu Atoll</li>
+                        <li><i class="fas fa-phone"></i> +960 1234567</li>
+                        <li><i class="fas fa-envelope"></i> info@lasthunt.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Malé Delivery Office: Henveiru, Malé</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 LAST HUNT. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
